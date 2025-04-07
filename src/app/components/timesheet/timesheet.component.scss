@@ -9,6 +9,12 @@ h2 {
 mat-form-field {
     width: calc(100% - 45px);
 }
+.employeeInput{
+    display: flex;
+    flex-direction: row;
+    padding: 10px 10px 0px 10px;
+    gap: 5px;
+}
 
 .hours {
     min-height: 200px;
