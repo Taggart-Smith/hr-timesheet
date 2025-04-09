@@ -16,7 +16,9 @@ export class DepartmentsComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    this.departments = this.departmentsServices.departments;
+    this.departmentsServices.getDepartments().subscribe((departments) => {
+      this.departments = departments;
+    });
   }
   gotoDepartment(departmentId: string): void {
     this.router.navigate(['./timesheet', { id: departmentId }]);
