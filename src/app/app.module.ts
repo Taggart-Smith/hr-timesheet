@@ -10,7 +10,19 @@ import { TopNavbarComponent } from './components/top-navbar/top-navbar.component
 import { AnalyticsTableComponent } from './components/analytics-table/analytics-table.component';
 import { MaterialModule } from './modules/material.module';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from './environment';
+import {
+  AngularFirestore,
+  AngularFirestoreModule,
+} from '@angular/fire/compat/firestore';
+import { EmployeeService } from './services/employee.service';
 
 @NgModule({
   declarations: [
@@ -27,8 +39,17 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     FormsModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: EmployeeService,
+      useFactory: (afs: AngularFirestore) => new EmployeeService(afs),
+      deps: [AngularFirestore],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
